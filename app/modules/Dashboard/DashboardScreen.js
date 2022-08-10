@@ -94,7 +94,11 @@ class DashboardScreen extends Component {
         <CustomHeader />
         <TouchableOpacity
           style={styles.menuIcon}
-          onPress={() => navigation.toggleDrawer()}
+          onPress={() =>
+            navigation.navigate(AppConstants.ADD_CONTACT, {
+              isNewContact: true,
+            })
+          }
         >
           <EntypoIcon name={"menu"} size={20} color={Colors.white} />
         </TouchableOpacity>

@@ -3,6 +3,7 @@ import {
   UPDATE_USER,
   LOGIN,
   SEARCH_CONTACTS,
+  ADD_CONTACT
 } from "../constants/APIConstants";
 
 const RestAPI = {
@@ -20,7 +21,7 @@ const RestAPI = {
       .catch((error) => error);
   },
   addContact: async function (request) {
-    return fetch(API_BASE_URL + UPDATE_USER, {
+    return fetch(API_BASE_URL + ADD_CONTACT, {
       method: "POST",
       headers: {
         Accept: "application/json",

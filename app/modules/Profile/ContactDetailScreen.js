@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import withLoader from "../../actions/withLoader";
 import withToast from "../../actions/withToast";
@@ -13,7 +14,6 @@ import { Images } from "../../assets/index";
 import { Button } from "../../components/index";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import { Colors, scale } from "../../utils/index";
-import CustomTextInput from "../../components/CustomTextInput";
 import API from "../../utils/RestAPI";
 import { emailRegex } from "../../utils";
 import _ from "lodash";
@@ -25,12 +25,13 @@ class ContactDetailScreen extends Component {
   constructor(props) {
     super(props);
     const { UserDetail, isNewContact } = props.route.params;
+    console.log('UserDetail ', UserDetail?.email)
     this.state = {
       email: UserDetail?.email | "",
       photo: UserDetail?.picture | null,
-      firstName: UserDetail?.name,
-      lastName: UserDetail?.name,
-      mobile: UserDetail?.contact_number | "",
+      firstName: UserDetail?.first_name | "",
+      lastName: UserDetail?.last_name | "",
+      mobile: UserDetail?.mobile | "",
       token: "",
       loading: true,
       isNewContact: isNewContact | true,
@@ -44,12 +45,20 @@ class ContactDetailScreen extends Component {
         token: object?.token,
       });
     });
+    const { UserDetail, isNewContact } = this.props.route.params;
+    this.setState({
+      email: UserDetail?.email | "",
+      photo: UserDetail?.picture | null,
+      firstName: UserDetail?.first_name | "",
+      lastName: UserDetail?.last_name | "",
+      mobile: UserDetail?.mobile | "",
+      isNewContact: isNewContact,
+    });
   }
 
   addContact = async () => {
     const { loader, toast } = this.props;
     const { token, base64, firstName, lastName, mobile, email } = this.state;
-
     const request = base64 ? { photo: base64 } : {};
     loader(true);
     await API.addContact({
@@ -64,10 +73,11 @@ class ContactDetailScreen extends Component {
     })
       .then(async (response) => {
         loader(false);
+        console.log('response :', response);
         if (response?.success) {
           toast({ text: `New Contact added successfully` });
           this.state = {
-            email:  "",
+            email: "",
             photo: null,
             firstName: "",
             lastName: "",
@@ -96,7 +106,7 @@ class ContactDetailScreen extends Component {
   };
 
   validateTheContact = () => {
-    const {  toast } = this.props;
+    const { toast } = this.props;
     const { email, lastName, firstName, mobile } = this.state;
     if (firstName?.length < 1) {
       toast({ text: `First name is required` });
@@ -104,11 +114,11 @@ class ContactDetailScreen extends Component {
       toast({ text: `Last name is required` });
     } else if (mobile?.length < 1) {
       toast({ text: `Mobile number is required` });
-    }else if (mobile?.length === 10) {
+    } else if (mobile?.length !== 10) {
       toast({ text: `Invalid Mobile number` });
-    }else if (email?.length < 1) {
+    } else if (email?.length < 1) {
       toast({ text: `Email Address is required` });
-    }else if (!emailRegex.test(email)) {
+    } else if (!emailRegex.test(email)) {
       toast({ text: `Invalid email address` });
     } else {
       this.addContact();
@@ -138,6 +148,7 @@ class ContactDetailScreen extends Component {
     const { isNewContact, photo, loading, email, lastName, firstName, mobile } =
       this.state;
     const imgURI = photo?.length > 0 ? { uri: photo } : Images.profileDefault;
+    console.log('STATE ::', this.state);
     return (
       <ScrollView
         ref={(ref) => (this.scrollRef = ref)}
@@ -175,97 +186,88 @@ class ContactDetailScreen extends Component {
               </TouchableOpacity>
             )}
           </View>
+          <View style={styles.contactContainer}>
+            <TextInput
+              name="firstName"
+              disabled={isNewContact}
+              placeholder="First Name"
+              refProp={(ref) => (this.firstnameRef = ref)}
+              changeSuccessColor={true}
+              type={"text"}
+              onChangeText={(text) => this.setState({ firstName: text })}
+              style={styles.textInput}
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={firstName}
+              require={true}
+              autoFocus={true}
+              returnKeyType={"next"}
+              keyboardType={"default"}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+            />
 
-          <CustomTextInput
-            name="firstName"
-            disabled={isNewContact}
-            placeholder="First Name"
-            refProp={(ref) => (this.firstnameRef = ref)}
-            changeSuccessColor={true}
-            type={"text"}
-            onChangeText={(text) => this.setState({ firstName: text })}
-            style={{ paddingLeft: 0 }}
-            autoCapitalize="none"
-            autoCorrect={false}
-            value={firstName}
-            require={true}
-            autoFocus={true}
-            returnKeyType={"next"}
-            keyboardType={"default"}
-            ellipsizeMode="tail"
-            numberOfLines={1}
-            onSubmitEditing={() => this.lastNameRef.focus()}
-          />
+            <TextInput
+              name="lastName"
+              disabled={isNewContact}
+              placeholder="Last Name"
+              style={styles.textInput}
+              refProp={(ref) => (this.lastNameRef = ref)}
+              changeSuccessColor={true}
+              type={"text"}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={(text) => this.setState({ lastName: text })}
+              value={lastName}
+              require={true}
+              returnKeyType={"next"}
+              keyboardType={"default"}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+            />
 
-          <CustomTextInput
-            name="lastName"
-            disabled={isNewContact}
-            placeholder="Last Name"
-            style={{ paddingLeft: 0 }}
-            refProp={(ref) => (this.lastNameRef = ref)}
-            changeSuccessColor={true}
-            type={"text"}
-            autoCapitalize="none"
-            autoCorrect={false}
-            onChangeText={(text) => this.setState({ lastName: text })}
-            value={lastName}
-            require={true}
-            returnKeyType={"next"}
-            keyboardType={"default"}
-            ellipsizeMode="tail"
-            numberOfLines={1}
-            onEndEditing={() => {
-              this.mobileRef.isFocused();
-            }}
-            onSubmitEditing={() => this.mobileRef.focus()}
-          />
+            <TextInput
+              name="mobile"
+              disabled={isNewContact}
+              placeholder="Mobile Number"
+              style={styles.textInput}
+              refProp={(ref) => (this.mobileRef = ref)}
+              changeSuccessColor={true}
+              type={"text"}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={(text) => this.setState({ mobile: text })}
+              value={mobile}
+              maxLength={11}
+              require={true}
+              returnKeyType={"next"}
+              keyboardType={"numeric"}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+            />
 
-          <CustomTextInput
-            name="mobile"
-            disabled={isNewContact}
-            placeholder="Mobile Number"
-            style={{ paddingLeft: 0 }}
-            refProp={(ref) => (this.mobileRef = ref)}
-            changeSuccessColor={true}
-            type={"text"}
-            autoCapitalize="none"
-            autoCorrect={false}
-            onChangeText={(text) => this.setState({ mobile: text })}
-            value={mobile}
-            maxLength={11}
-            require={true}
-            returnKeyType={"next"}
-            keyboardType={"numeric"}
-            ellipsizeMode="tail"
-            numberOfLines={1}
-            onEndEditing={() => {
-              this.emailRef.isFocused();
-            }}
-            onSubmitEditing={() => this.emailRef.focus()}
-          />
-
-          <CustomTextInput
-            refProp={(ref) => (this.emailRef = ref)}
-            name="email"
-            require={true}
-            disabled={isNewContact}
-            style={{ paddingLeft: 0 }}
-            placeholder="Email Address"
-            changeSuccessColor={true}
-            ellipsizeMode="tail"
-            type={"text"}
-            autoCapitalize="none"
-            numberOfLines={1}
-            autoCorrect={false}
-            onChangeText={(text) => this.setState({ email: text })}
-            value={email}
-            keyboardType={"email-address"}
-            returnKeyType={"done"}
-            onSubmitEditing={this.validateTheContact()}
-          />
+            <TextInput
+              refProp={(ref) => (this.emailRef = ref)}
+              name="email"
+              require={true}
+              disabled={isNewContact}
+              style={styles.textInput}
+              placeholder="Email Address"
+              changeSuccessColor={true}
+              ellipsizeMode="tail"
+              type={"text"}
+              autoCapitalize="none"
+              numberOfLines={1}
+              autoCorrect={false}
+              onChangeText={(text) => this.setState({ email: text })}
+              value={email}
+              keyboardType={"email-address"}
+              returnKeyType={"done"}
+            />
+          </View>
           {isNewContact && (
             <Button
-              onPress={this.validateTheContact()}
+              onPress={() => this.validateTheContact()}
               title={"Submit"}
               textStyle={{ textAlign: "center" }}
               contentStyle={{ marginTop: scale(25), height: scale(40) }}

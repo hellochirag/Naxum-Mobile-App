@@ -28,14 +28,10 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: Colors.white,
-    //backgroundColor:'yellow',
-    // width: WINDOW.width,
-    // height: WINDOW.height - 40 - (Platform.OS === 'android' ? 24 : 0),
   },
   contentContainerStyle: {
     flexGrow: 1,
     backgroundColor: Colors.white,
-    //borderColor: Colors.red
   },
   profileContainer: {
     flex: 1,
@@ -43,7 +39,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingBottom: 15,
     paddingTop: 30,
-    //backgroundColor: 'skyblue'
     backgroundColor: Colors.white,
   },
   profileButton: {
@@ -53,7 +48,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: scale(36),
     width: scale(100),
-    //padding: scale(4),
     borderColor: Colors.shadeblue,
     borderWidth: 1,
   },
@@ -81,6 +75,24 @@ const styles = StyleSheet.create({
     top: 90,
     right: 0,
   },
+  textInput: {
+    backgroundColor: Colors.transparent,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    width: scale(300),
+    padding: scale(5),
+    height: scale(45),
+    borderColor: Colors.shadeGray,
+    borderWidth:0,
+    borderBottomWidth: 1,
+    marginTop: scale(5)
+  },
+  contactContainer: {
+    justifyContent: 'center',
+    marginVertical: scale(50),
+    backgroundColor: Colors.white,
+  }
 });
 
 export default styles;

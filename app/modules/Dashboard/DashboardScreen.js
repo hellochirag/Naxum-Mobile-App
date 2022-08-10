@@ -75,7 +75,7 @@ class DashboardScreen extends Component {
         style={styles.listContainer}
         onPress={() =>
           this.props.navigation.navigate(AppConstants.ADD_CONTACT, {
-            isNewContact: true,
+            isNewContact: false,
             UserDetail: item?.item,
           })
         }

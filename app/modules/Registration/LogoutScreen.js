@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import styles from './styles/LogoutScreenStyles';
-import { Icons } from '../../assets/index';
 import { Button } from '../../components/index';
 import _ from 'lodash';
 import { CommonActions } from '@react-navigation/native';
 import { AppConstants } from '../../constants/index';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 class LogoutScreen extends Component {
 

@@ -39,7 +39,6 @@ function StackScreen() {
       <Stack.Screen
         name={'Root'}
         component={Root}
-
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

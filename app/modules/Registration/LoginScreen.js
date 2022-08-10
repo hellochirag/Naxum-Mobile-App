@@ -16,32 +16,32 @@ import _ from 'lodash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppConstants } from '../../constants/index';
 
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 class LoginScreen extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      username: '',
       password: '',
     };
   }
 
   doLogin = async (values) => {
     const { loader, toast } = this.props;
-    const { email, password } = values;
+    const { username, password } = values;
     loader(true);
-    await API.login({ Username: email, Password: password })
+    await API.login({ username: username, password: password })
       .then(async (response) => {
-        if (_.isEmpty(response)) {
+        if (_.isEmpty(response) || !response?.success) {
           loader(false);
           setTimeout(() => {
             toast({ text: `Invalid credentials` });
           }, 200);
         } else {
-          toast({ text: `You Have Successfully Logged in to Naxum` });
-          AsyncStorage.setItem(AppConstants.USER_DETAILS, JSON.stringify(response), () => {
-            console.log('cred stored successfully in storage')
+          toast({ text: `You Have Successfully Logged in to Naxum`});
+          AsyncStorage.setItem(AppConstants.USER_DETAILS, JSON.stringify(response?.data), () => {
+            console.log('cred stored successfully in storage', JSON.stringify(response?.data) );
+            this.props.navigation.navigate(AppConstants.PROFILE, {UserDetail: response?.data })
           });
           loader(false);
         }
@@ -66,10 +66,10 @@ class LoginScreen extends Component {
           resizeMode={'contain'}
         />
         <CustomTextInput
-          refProp={ref => this.email = ref}
-          name="email"
+          refProp={ref => this.username = ref}
+          name="username"
           require={true}
-          placeholder="Email Address"
+          placeholder="User Name"
           changeSuccessColor={true}
           leftSideComponent={
             <UserIcon name={'user-alt'} size={14}
@@ -86,7 +86,7 @@ class LoginScreen extends Component {
           value={''}
           autoFocus={true}
           returnKeyType={"next"}
-          keyboardType={"email-address"}
+          keyboardType={"default"}
           onSubmitEditing={() => this.passwordRef.focus()}
         />
 
@@ -128,17 +128,15 @@ class LoginScreen extends Component {
 
 
 const initialValues = {
-  email: '',
+  username: '',
   password: ''
 };
 
 const validate = values => {
   let errors = {};
 
-  errors.email = !values.email
-    ? 'Please enter an Email Address'
-    : !emailRegex.test(values.email)
-      ? 'Invalid email'
+  errors.username = !values.username
+    ? 'Please enter an User Name'
       : undefined;
 
   errors.password = !values.password
@@ -160,7 +158,7 @@ const selector = formValueSelector('loginForm');
 const mapStateToProps = state => {
   return {
     formValue: state.form.loginForm ? state.form.loginForm.values : {},
-    email: selector(state, 'email'),
+    username: selector(state, 'username'),
     password: selector(state, 'password'),
   };
 };

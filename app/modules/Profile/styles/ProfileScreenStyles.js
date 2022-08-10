@@ -8,6 +8,13 @@ const styles = StyleSheet.create({
     borderRadius: scale(60),
     //alignSelf: 'center'
   },
+  activityIndicator: {
+    width: scale(100),
+    height: scale(100),
+    alignSelf: 'center',
+    position: 'absolute',
+    top: 10,
+  },
   container: {
     backgroundColor: '#ffffff',
     flex: 1,

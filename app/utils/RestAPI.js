@@ -1,15 +1,17 @@
-  import {API_BASE_URL, GET_USER_ENV, LOGIN, LOGOUT, REST_PASSWORD, SEARCH_PATROLLER} from '../constants/APIConstants';
+  import {API_BASE_URL, UPDATE_USER, LOGIN, SEARCH_PATROLLER} from '../constants/APIConstants';
 
 const RestAPI = {
 
-  authenticateUser: async function(data) {
-    const body = {Username: data?.email };
-    return fetch(API_BASE_URL + GET_USER_ENV, {
+  updateProfile: async function(request) {
+    console.log('requestrequestrequestrequestrequest', JSON.stringify(request));
+    return fetch(API_BASE_URL + UPDATE_USER, {
       method: 'POST',
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
-    },
-      body: JSON.stringify(body),
+        'Authorization': `Bearer ${request?.header?.token}`,
+      },
+      body: JSON.stringify(request.body),
     })
       .then(async response => response.json())
       .catch(error => error);
@@ -33,18 +35,6 @@ const RestAPI = {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-    })
-      .then(async response => response.json())
-      .catch(error => error);
-  },
-  resetPassword: async function(body) {
-    console.log('RESET PASSWORD :: ', body);
-    return fetch(API_BASE_URL + REST_PASSWORD, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-    },
-      body: JSON.stringify(body),
     })
       .then(async response => response.json())
       .catch(error => error);

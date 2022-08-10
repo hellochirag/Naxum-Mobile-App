@@ -19,81 +19,56 @@ import EntypoIcon from 'react-native-vector-icons/Entypo';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 class DrawerScreen extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            profile: [
-                { label: 'Item 1', value: '1' },
-                { label: 'Item 2', value: '2' },
-                { label: 'Item 3', value: '3' },
-                { label: 'Item 4', value: '4' },
-                { label: 'Item 5', value: '5' },
-                { label: 'Item 6', value: '6' },
-                { label: 'Item 7', value: '7' },
-                { label: 'Item 8', value: '8' },
-            ],
-            selecedField: { label: 'Item 2', value: '2' }
+            toggleProfile: false
         }
     }
 
+    profileAction = () => {
+        const { toggleProfile } = this.state;
+        this.setState({ toggleProfile: !toggleProfile })
+    }
 
     render() {
-        const { profile, selecedField } = this.state;
+        const { toggleProfile } = this.state;
         const { valid, dirty, handleSubmit, navigation, photo = null } = this.props;
         const imgurl = photo ? { uri: photo.uri } : Images.profileDefault;
         return (
             <View style={styles.container}>
-
                 <Image
                     source={imgurl}
                     style={styles.image}
                     resizeMode={'cover'}
                 />
                 <View style={styles.horizontalLine}></View>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        paddingHorizontal: scale(16),
-                        marginTop: scale(20),
-                        justifyContent: 'space-around',
-                    }}
-                >
-                    <View
-                        style={{
-                            flex: 0.8,
-                            flexDirection: 'row',
-                            alignItems: 'flex-end',
-                            paddingBottom: scale(6)
-                        }}>
+                <View style={styles.dropdownContainer}>
+                    <View style={styles.dropdownRaw}>
                         <ProfileIcon name={'locked'} size={20} color={Colors.gray} />
                         <Text style={styles.title}>{'Profile'}</Text>
                     </View>
-                    <View>
-                        <EntypoIcon name={'chevron-up'} size={30} color={Colors.gray} />
-                    </View>
+                    <TouchableOpacity
+                        style={styles.editPhotoIcon}
+                        onPress={this.profileAction}
+                    >
+                        <EntypoIcon name={toggleProfile ? 'chevron-up' : 'chevron-down'} size={24} color={Colors.gray} />
+                    </TouchableOpacity>
                 </View>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        paddingHorizontal: scale(14),
-                        marginTop: scale(20),
-                        justifyContent: 'space-around',
-                    }}
-                >
-                    <View
-                        style={{
-                            flex: 0.8,
-                            flexDirection: 'row',
-                            alignItems: 'flex-end',
-                            paddingBottom: scale(6)
-                        }}>
+                {toggleProfile && <View style={styles.myProfileRaw}>
+                    <TouchableOpacity style={{ paddingLeft: scale(40) }} onPress={() => navigation.navigate(AppConstants.PROFILE)}>
+                        <Text style={styles.title}>{'My Profile'}</Text>
+                    </TouchableOpacity>
+                </View>}
+                <View style={styles.logoutRaw}>
+                    <TouchableOpacity style={styles.logoutContainer} onPress={() => true}>
                         <AntDesign name={'poweroff'} size={18} color={Colors.gray} />
                         <Text style={styles.title}>{'Logout'}</Text>
-                    </View>
-                    <View/>
+                    </TouchableOpacity>
+                    <View />
                 </View>
             </View>
         );

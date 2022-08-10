@@ -12,15 +12,6 @@ const Button = ({ disabled, title ,onPress, iconURI,contentStyle, textStyle, isR
       onPress={onPress}
     >
       <Text style={[styles.title,textStyle]}>{title}</Text>
-      <TouchableOpacity activeOpacity={0.5}>
-      {isRightIcon &&
-        <Image
-          source={iconURI}
-          style={styles.rightIcon}
-          resizeMode={'contain'}
-        />
-    }
-      </TouchableOpacity>
     </TouchableOpacity>
   );
 };

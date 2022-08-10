@@ -3,10 +3,10 @@ import { scale, Colors, Fonts } from '../../utils/index';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.transparent,
+    backgroundColor: Colors.shadeblue,
     justifyContent: 'center',
     flexDirection: 'row',
-    height: scale(55),
+    height: scale(80),
     width: '100%',
   },
   logo: {

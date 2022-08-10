@@ -3,16 +3,16 @@ import { scale, Fonts, Colors, WINDOW } from '../../utils/index';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.shadeGray,
+    backgroundColor: Colors.transparent,
     alignSelf: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     width: scale(300),
     padding: scale(5),
     height: scale(45),
-    borderRadius: scale(4),
     borderColor: Colors.shadeGray,
-    borderWidth: 2,
+    borderWidth:0,
+    borderBottomWidth: 1,
     marginTop: scale(5)
   },
   title: {
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     alignContent: 'center'
   },
   inputStyle: {
-    color: 'white',
+    color: Colors.black,
     fontSize: Fonts.size.medium,
     fontFamily: Fonts.type.regular,
     letterSpacing: 0.5,
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   errorText: {
-    color: 'white',
+    color: Colors.red,
     fontFamily: Fonts.type.regular,
     fontSize: scale(12),
     letterSpacing: scale(0.5) >= 0.25 ? scale(0.5) : 0.25,

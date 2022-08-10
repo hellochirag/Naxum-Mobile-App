@@ -31,7 +31,7 @@ class LoginScreen extends Component {
     const { loader, toast } = this.props;
     const { email, password } = values;
     loader(true);
-    await API.authenticateUser({ email })
+    await API.login({ Username: email, Password: password })
       .then(async (response) => {
         if (_.isEmpty(response)) {
           loader(false);
@@ -39,34 +39,11 @@ class LoginScreen extends Component {
             toast({ text: `Invalid credentials` });
           }, 200);
         } else {
-          const { ApplicationBaseURL } = response;
-          await AsyncStorage.setItem(AppConstants.APP_HOST_URL, ApplicationBaseURL);
-          await API.login({ Username: email, Password: password, VersionCode: "111", "ImenseID": "f2b672ff287503b93348cb3ef315377d" })
-            .then(async (response) => {
-              if (_.isEmpty(response)) {
-                loader(false);
-                setTimeout(() => {
-                  toast({ text: `Invalid credentials` });
-                }, 200);
-              } else {
-                toast({ text: `You Have Successfully Logged in to Roker Patrol` });
-                AsyncStorage.setItem(AppConstants.USER_DETAILS, JSON.stringify(response), () => {
-                  const {Groups} = response;
-                  const locations = _.map(Groups, 'Lots');
-                  loader(false);
-                  AsyncStorage.setItem(AppConstants.LOCATIONS, JSON.stringify(locations.flat()), () => {
-                    this.props.navigation.navigate(AppConstants.HOME, {Locations: locations.flat(), UserDetail: response })
-                  });
-                });
-                loader(false);
-              }
-            })
-            .catch((error) => {
-              loader(false);
-              setTimeout(() => {
-                toast({ text: `Error: ${error.message}` });
-              }, 200);
-            });
+          toast({ text: `You Have Successfully Logged in to Naxum` });
+          AsyncStorage.setItem(AppConstants.USER_DETAILS, JSON.stringify(response), () => {
+            console.log('cred stored successfully in storage')
+          });
+          loader(false);
         }
       })
       .catch((error) => {
@@ -82,6 +59,7 @@ class LoginScreen extends Component {
     const { valid, dirty, handleSubmit } = this.props;
     return (
       <View style={styles.container}>
+        <View style={{ flex: 0.3 }}></View>
         <Image
           source={Images.appLogo}
           style={styles.image}
@@ -94,8 +72,8 @@ class LoginScreen extends Component {
           placeholder="Email Address"
           changeSuccessColor={true}
           leftSideComponent={
-            <UserIcon name={'user-alt'} size={20}
-              color={Colors.white} />
+            <UserIcon name={'user-alt'} size={14}
+              color={Colors.gray} />
           }
           ellipsizeMode='tail'
           onEndEditing={() => {
@@ -119,8 +97,8 @@ class LoginScreen extends Component {
           placeholder="Password"
           changeSuccessColor={true}
           leftSideComponent={
-            <PasswordIcon name={'key'} size={20}
-              color={Colors.white} />
+            <PasswordIcon name={'locked'} size={15}
+              color={Colors.gray} />
           }
           autoCapitalize="words"
           autoCorrect={false}
@@ -138,9 +116,11 @@ class LoginScreen extends Component {
         <Button
           disabled={(dirty && valid) ? false : true}
           onPress={handleSubmit(this.doLogin)}
-          title={'LOG IN'} iconURI={Icons.rightArrow} isRightIcon textStyle={{ textAlign: 'left', flex: 1 }} contentStyle={{ marginTop: scale(25) }} />
-        <Button  onPress={()=> this.props.navigation.navigate(AppConstants.REST_PASSWORD)} title={'REST PASSWORD'} contentStyle={{ position: 'absolute', bottom: 80 }} />
-        <Text style={styles.versionLabel}>Version: 2.0.7</Text>
+          title={'LOGIN'}
+          iconURI={Icons.rightArrow}
+          textStyle={{ textAlign: 'center', flex: 1 }}
+          contentStyle={{ marginTop: scale(25) }}
+        />
       </View>
     );
   }

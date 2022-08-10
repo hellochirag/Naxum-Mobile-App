@@ -5,7 +5,7 @@
  * @providesModule ReduxReducers
  */
 
-import {LOADER_SET, TOAST_SET} from './actions';
+import { LOADER_SET, TOAST_SET } from "./actions";
 
 export const loader = (state = false, action) => {
   if (action.type === LOADER_SET) {
@@ -15,7 +15,7 @@ export const loader = (state = false, action) => {
   }
 };
 
-export const toast = (state = '', action) => {
+export const toast = (state = "", action) => {
   if (action.type === TOAST_SET) {
     return action.text;
   } else {

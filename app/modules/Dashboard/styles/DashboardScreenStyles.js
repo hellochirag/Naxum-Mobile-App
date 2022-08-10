@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
   },
   listStyle: {
     marginTop: scale(50),
-    //marginBottom: scale(50)
   },
   floatingButton: {
     height: scale(40),
@@ -116,6 +115,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: scale(70),
     right: scale(30)
+  },
+  emptyContent: {
+    justifyContent: 'center',
+    width: '100%',
+  },
+  emptyText: {
+    fontSize: Fonts.size.label,
+    alignSelf: 'center',
+    flexWrap: 'wrap'
   }
 });
 

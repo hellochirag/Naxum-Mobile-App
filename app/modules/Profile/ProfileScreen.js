@@ -18,17 +18,15 @@ import CustomTextInput from "../../components/CustomTextInput";
 import { formValueSelector, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import API from "../../utils/RestAPI";
+import { emailRegex } from "../../utils";
 import _ from "lodash";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppConstants } from "../../constants/index";
 import * as ImagePicker from "expo-image-picker";
 
-const emailRegex =
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 class ProfileScreen extends Component {
   constructor(props) {
     super(props);
-    console.log(' props.route.params?.UserDetail ',  props.route.params?.UserDetail);
     const { token, contact_number, email, name, picture } =
       props.route.params?.UserDetail;
     this.state = {
@@ -85,9 +83,13 @@ class ProfileScreen extends Component {
             lastName: lastName,
             photo: photo,
           };
-          AsyncStorage.setItem(AppConstants.USER_DETAILS, JSON.stringify(updateObject), () => {
-            console.log("Updated stored successfully in storage");
-          });
+          AsyncStorage.setItem(
+            AppConstants.USER_DETAILS,
+            JSON.stringify(updateObject),
+            () => {
+              console.log("Updated stored successfully in storage");
+            }
+          );
         } else {
           setTimeout(() => {
             toast({ text: `Something went wrong, please try again!` });
@@ -132,7 +134,7 @@ class ProfileScreen extends Component {
   render() {
     const { activeTabIndex, photo, loading, firstName } = this.state;
     const { valid, dirty, handleSubmit } = this.props;
-    const imgurl = photo?.length > 0 ? { uri: photo } : Images.profileDefault;
+    const imgURI = photo?.length > 0 ? { uri: photo } : Images.profileDefault;
     return (
       <ScrollView
         ref={(ref) => (this.scrollRef = ref)}
@@ -149,7 +151,7 @@ class ProfileScreen extends Component {
               onLoadEnd={() => {
                 this.setState({ loading: false });
               }}
-              source={imgurl}
+              source={imgURI}
               style={styles.image}
               resizeMode={"cover"}
             />

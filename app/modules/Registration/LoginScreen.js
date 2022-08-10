@@ -116,7 +116,6 @@ class LoginScreen extends Component {
           disabled={(dirty && valid) ? false : true}
           onPress={handleSubmit(this.doLogin)}
           title={'LOGIN'}
-          iconURI={Icons.rightArrow}
           textStyle={{ textAlign: 'center', flex: 1 }}
           contentStyle={{ marginTop: scale(25) }}
         />

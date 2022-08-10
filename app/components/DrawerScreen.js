@@ -38,7 +38,7 @@ class DrawerScreen extends Component {
 
   render() {
     const { toggleProfile, loading, photo } = this.state;
-    const imgurl = photo?.length > 0 ? { uri: photo } : Images.profileDefault;
+    const imgURI = photo?.length > 0 ? { uri: photo } : Images.profileDefault;
 
     return (
       <View style={styles.container}>
@@ -46,7 +46,7 @@ class DrawerScreen extends Component {
           onLoadEnd={() => {
             this.setState({ loading: false });
           }}
-          source={imgurl}
+          source={imgURI}
           style={styles.image}
           resizeMode={"cover"}
         />

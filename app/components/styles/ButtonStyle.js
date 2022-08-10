@@ -3,19 +3,19 @@ import {scale, Fonts, Colors} from '../../utils/index';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'transparent',
+    backgroundColor: Colors.shadeblue,
     alignSelf: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    height: scale(55),
+    height: scale(48),
     width: scale(300),
     padding: scale(10),
-    borderRadius: scale(8),
-    borderColor: '#999999',
+    borderRadius: scale(6),
+    borderColor: Colors.shadeblue,
     borderWidth: 2
   },
   title: {
-    fontSize: Fonts.size.label,
+    fontSize: Fonts.size.medium,
     color: Colors.white,
     alignSelf: 'center',
     fontWeight: 'bold'

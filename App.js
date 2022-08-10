@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { Provider } from "react-redux";
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     backgroundColor: "#fff",
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "center",
   },
 });

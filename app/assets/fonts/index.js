@@ -1,10 +1,10 @@
 import {moderateScale} from '../../utils/Metrics';
 
 const type = {
-  bold: 'Rubik',
-  semiBold: 'Rubik',
-  medium: 'Rubik',
-  regular: 'Rubik',
+  bold: 'System',
+  semiBold: 'System',
+  medium: 'System',
+  regular: 'System',
 };
 
 const size = {

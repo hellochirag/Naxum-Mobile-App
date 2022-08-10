@@ -18,6 +18,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: scale(30),
     fontWeight: 'bold'
+  },
+  menuIcon:{
+    height: scale(30),
+    width: scale(30),
+    backgroundColor: Colors.transparent,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 45,
+    right: 16
   }
 });
 

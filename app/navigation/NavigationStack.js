@@ -32,10 +32,9 @@ function Root() {
 function StackScreen() {
   return (
     <Stack.Navigator
-      initialRouteName={AppConstants.LOGIN}>
-        <Stack.Screen name={AppConstants.LOGIN} component={LoginScreen} />
+      initialRouteName={AppConstants.PROFILE}>
       <Stack.Screen name={AppConstants.PROFILE} component={ProfileScreen} />
-      
+      <Stack.Screen name={AppConstants.LOGIN} component={LoginScreen} />
       <Stack.Screen
         name={'Root'}
         component={Root}

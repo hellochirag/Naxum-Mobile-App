@@ -64,7 +64,7 @@ class DrawerScreen extends Component {
                     </TouchableOpacity>
                 </View>}
                 <View style={styles.logoutRaw}>
-                    <TouchableOpacity style={styles.logoutContainer} onPress={() => true}>
+                    <TouchableOpacity style={styles.logoutContainer} onPress={() => navigation.navigate(AppConstants.LOGOUT)}>
                         <AntDesign name={'poweroff'} size={18} color={Colors.gray} />
                         <Text style={styles.title}>{'Logout'}</Text>
                     </TouchableOpacity>

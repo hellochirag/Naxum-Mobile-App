@@ -5,7 +5,8 @@ import { AppConstants } from '../constants';
 import {
   LoginScreen,
   ProfileScreen,
-  DashboardScreen
+  DashboardScreen,
+  LogoutScreen
 } from '../modules/index';
 import { DrawerScreen } from '../components';
 
@@ -35,6 +36,7 @@ function StackScreen() {
       initialRouteName={AppConstants.PROFILE}>
       <Stack.Screen name={AppConstants.PROFILE} component={ProfileScreen} />
       <Stack.Screen name={AppConstants.LOGIN} component={LoginScreen} />
+      <Stack.Screen name={AppConstants.LOGOUT} component={LogoutScreen} />
       <Stack.Screen
         name={'Root'}
         component={Root}

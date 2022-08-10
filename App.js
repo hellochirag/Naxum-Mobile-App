@@ -6,9 +6,11 @@ import { MainContainer } from "./app/modules/index";
 import Store from "./app/redux/store";
 import { NavigationContainer } from "@react-navigation/native";
 import Navigator from "./app/navigation/index";
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 export default function App() {
   return (
+    <RootSiblingParent>
     <Provider store={Store}>
       <View style={styles.container}>
         <StatusBar style="auto" />
@@ -18,6 +20,7 @@ export default function App() {
         <MainContainer />
       </View>
     </Provider>
+    </RootSiblingParent>
   );
 }
 

@@ -5,10 +5,10 @@
  * @providesModule ReduxStore
  */
 
-import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
-import thunk from 'redux-thunk';
-import {loader, toast} from './reducers';
-import {reducer as formReducer} from 'redux-form';
+import { applyMiddleware, combineReducers, compose, createStore } from "redux";
+import thunk from "redux-thunk";
+import { loader, toast } from "./reducers";
+import { reducer as formReducer } from "redux-form";
 
 const store = createStore(
   combineReducers({
@@ -17,7 +17,7 @@ const store = createStore(
     form: formReducer,
   }),
   undefined,
-  compose(applyMiddleware(thunk)),
+  compose(applyMiddleware(thunk))
 );
 
 export const configureStore = () => {

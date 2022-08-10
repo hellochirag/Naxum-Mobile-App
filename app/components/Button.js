@@ -1,9 +1,8 @@
 import React from 'react';
-import { Text, TouchableOpacity, Image } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import styles from './styles/ButtonStyle';
-import { Icons } from '../assets';
 
-const Button = ({ disabled, title ,onPress, iconURI,contentStyle, textStyle, isRightIcon= false }) => {
+const Button = ({ disabled, title ,onPress, contentStyle, textStyle }) => {
   return (
     <TouchableOpacity
       disabled={disabled}

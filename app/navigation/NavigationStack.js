@@ -9,12 +9,6 @@ import {
   LogoutScreen
 } from '../modules/index';
 import { DrawerScreen } from '../components';
-import * as React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { AppConstants } from "../constants";
-import { LoginScreen, ProfileScreen, DashboardScreen } from "../modules/index";
-import { DrawerScreen } from "../components";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

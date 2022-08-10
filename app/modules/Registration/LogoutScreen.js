@@ -29,7 +29,6 @@ class LogoutScreen extends Component {
             disabled={false}
             onPress={this.doLogout()}
             title={'Yes'}
-            iconURI={Icons.rightArrow}
             textStyle={{ textAlign: 'center', flex: 1 }}
             contentStyle={styles.buttonContainer}
           />
@@ -37,7 +36,6 @@ class LogoutScreen extends Component {
             disabled={false}
             onPress={() => this.props.navigation.dispatch(CommonActions.goBack())}
             title={'Cancel'}
-            iconURI={Icons.rightArrow}
             textStyle={{ textAlign: 'center', flex: 1 }}
             contentStyle={styles.buttonContainer}
           />

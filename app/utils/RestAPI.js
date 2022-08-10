@@ -19,6 +19,19 @@ const RestAPI = {
       .then(async (response) => response.json())
       .catch((error) => error);
   },
+  addContact: async function (request) {
+    return fetch(API_BASE_URL + UPDATE_USER, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${request?.header?.token}`,
+      },
+      body: JSON.stringify(request.body),
+    })
+      .then(async (response) => response.json())
+      .catch((error) => error);
+  },
   login: async function (body) {
     return fetch(API_BASE_URL + LOGIN, {
       method: "POST",

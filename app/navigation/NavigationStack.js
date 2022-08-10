@@ -1,14 +1,15 @@
-import * as React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { AppConstants } from '../constants';
+import * as React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { AppConstants } from "../constants";
 import {
   LoginScreen,
   ProfileScreen,
   DashboardScreen,
-  LogoutScreen
-} from '../modules/index';
-import { DrawerScreen } from '../components';
+  ContactDetailScreen,
+  LogoutScreen,
+} from "../modules/index";
+import { DrawerScreen } from "../components";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -38,6 +39,12 @@ function StackScreen() {
       <Stack.Screen name={AppConstants.LOGIN} component={LoginScreen} />
       <Stack.Screen name={AppConstants.LOGOUT} component={LogoutScreen} />
       <Stack.Screen name={AppConstants.PROFILE} component={ProfileScreen} />
+      <Stack.Screen
+        name={AppConstants.ADD_CONTACT}
+        component={ContactDetailScreen}
+      />
+      <Stack.Screen name={AppConstants.LOGOUT} component={LogoutScreen} />
+
       <Stack.Screen
         name={AppConstants.ROOT}
         component={Root}

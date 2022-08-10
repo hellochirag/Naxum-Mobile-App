@@ -4,8 +4,9 @@ const constants = {
   DASHBOARD:'Dashboard',
   APP_HOST_URL: '@appHostUrl',
   USER_DETAILS: '@userDetail',
+  ROOT: 'Home',
+  ADD_CONTACT: '@addNewContact',
   LOGOUT: 'Logout',
-  ROOT: 'Home'
 };
 
 export default constants;

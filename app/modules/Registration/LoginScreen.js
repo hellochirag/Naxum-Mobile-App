@@ -40,8 +40,7 @@ class LoginScreen extends Component {
         } else {
           toast({ text: `You Have Successfully Logged in to Naxum`});
           AsyncStorage.setItem(AppConstants.USER_DETAILS, JSON.stringify(response?.data), () => {
-            console.log('cred stored successfully in storage', JSON.stringify(response?.data) );
-            this.props.navigation.navigate(AppConstants.PROFILE, {UserDetail: response?.data })
+            this.props.navigation.navigate(AppConstants.ROOT, {UserDetail: response?.data })
           });
           loader(false);
         }

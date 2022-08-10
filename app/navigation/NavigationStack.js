@@ -23,7 +23,7 @@ function Root() {
       drawerContent={(props) => <DrawerScreen {...props} />}
       useLegacyImplementation={true}
     >
-      <Drawer.Screen name="Dashboard" component={DashboardScreen} />
+      <Drawer.Screen name={AppConstants.DASHBOARD} component={DashboardScreen} />
     </Drawer.Navigator>
   );
 }
@@ -32,11 +32,12 @@ function Root() {
 function StackScreen() {
   return (
     <Stack.Navigator
-      initialRouteName={AppConstants.PROFILE}>
+      initialRouteName={AppConstants.LOGIN}>
+       <Stack.Screen name={AppConstants.LOGIN} component={LoginScreen} />
       <Stack.Screen name={AppConstants.PROFILE} component={ProfileScreen} />
-      <Stack.Screen name={AppConstants.LOGIN} component={LoginScreen} />
+     
       <Stack.Screen
-        name={'Root'}
+        name={AppConstants.ROOT}
         component={Root}
         options={{ headerShown: false }}
       />

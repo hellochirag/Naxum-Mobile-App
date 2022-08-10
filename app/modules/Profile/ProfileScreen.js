@@ -28,6 +28,7 @@ const emailRegex =
 class ProfileScreen extends Component {
   constructor(props) {
     super(props);
+    console.log(' props.route.params?.UserDetail ',  props.route.params?.UserDetail);
     const { token, contact_number, email, name, picture } =
       props.route.params?.UserDetail;
     this.state = {
@@ -131,9 +132,7 @@ class ProfileScreen extends Component {
   render() {
     const { activeTabIndex, photo, loading, firstName } = this.state;
     const { valid, dirty, handleSubmit } = this.props;
-    const imgurl = photo.length > 0 ? { uri: photo } : Images.profileDefault;
-    console.log('FIRST NAME :',firstName );
-    console.log('STATE :',this.state );
+    const imgurl = photo?.length > 0 ? { uri: photo } : Images.profileDefault;
     return (
       <ScrollView
         ref={(ref) => (this.scrollRef = ref)}
@@ -171,7 +170,7 @@ class ProfileScreen extends Component {
           </View>
 
           <Button
-            disabled={false}
+            disabled={true}
             title={"Top badges"}
             textStyle={styles.badgeButtonText}
             contentStyle={{ height: scale(38), marginTop: scale(18) }}

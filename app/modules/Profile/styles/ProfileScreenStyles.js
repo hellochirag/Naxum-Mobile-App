@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     width: scale(120),
     height: scale(120),
     borderRadius: scale(60),
-    //alignSelf: 'center'
   },
   activityIndicator: {
     width: scale(100),

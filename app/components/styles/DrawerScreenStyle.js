@@ -5,9 +5,15 @@ const styles = StyleSheet.create({
   image: {
     width: scale(80),
     height: scale(80),
-    borderRadius: scale(30),
+    borderRadius: scale(40),
     alignSelf: 'center',
     marginTop: scale(80)
+  },
+  activityIndicator: {
+    width: scale(80),
+    height: scale(80),
+    marginTop: -90,
+    alignSelf: 'center',
   },
   container: {
     backgroundColor: '#ffffff',

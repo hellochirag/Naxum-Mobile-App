@@ -9,7 +9,6 @@ export {
     LoginScreen,
     ProfileScreen,
     DashboardScreen,
-    LogoutScreen,
     MainContainer,
     ContactDetailScreen,
     LogoutScreen

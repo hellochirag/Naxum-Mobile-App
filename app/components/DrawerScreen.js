@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Image, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import styles from "./styles/DrawerScreenStyle";
 import { Images } from "../assets/index";
 import ProfileIcon from "react-native-vector-icons/Fontisto";
@@ -17,7 +23,7 @@ class DrawerScreen extends Component {
     this.state = {
       toggleProfile: false,
       loading: true,
-      photo:  null,
+      photo: null,
     };
   }
 
@@ -89,7 +95,10 @@ class DrawerScreen extends Component {
           </View>
         )}
         <View style={styles.logoutRaw}>
-          <TouchableOpacity style={styles.logoutContainer} onPress={() => true}>
+          <TouchableOpacity
+            style={styles.logoutContainer}
+            onPress={() => navigation.navigate(AppConstants.LOGOUT)}
+          >
             <AntDesign name={"poweroff"} size={18} color={Colors.gray} />
             <Text style={styles.title}>{"Logout"}</Text>
           </TouchableOpacity>

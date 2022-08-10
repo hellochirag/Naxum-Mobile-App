@@ -71,14 +71,22 @@ class DashboardScreen extends Component {
     const { picture, first_name, last_name } = item?.item;
     const imgURI = picture ? { uri: picture } : Images.profileDefault;
     return (
-      <View style={styles.listContainer}>
+      <TouchableOpacity
+        style={styles.listContainer}
+        onPress={() =>
+          this.props.navigation.navigate(AppConstants.ADD_CONTACT, {
+            isNewContact: true,
+            UserDetail: item?.item,
+          })
+        }
+      >
         <Image
           source={imgURI}
           style={styles.contactImage}
           resizeMode={"cover"}
         />
         <Text style={styles.contactName}>{first_name + " " + last_name}</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -94,17 +102,19 @@ class DashboardScreen extends Component {
         <CustomHeader />
         <TouchableOpacity
           style={styles.menuIcon}
-          onPress={() =>
-            navigation.navigate(AppConstants.ADD_CONTACT, {
-              isNewContact: true,
-            })
-          }
+          onPress={() => navigation.toggleDrawer()}
         >
           <EntypoIcon name={"menu"} size={20} color={Colors.white} />
         </TouchableOpacity>
         <Text style={styles.title}>{"Add Contacts"}</Text>
         <View style={styles.actionableButtonRaw}>
-          <View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(AppConstants.ADD_CONTACT, {
+                isNewContact: true,
+              })
+            }
+          >
             <View style={styles.actionableButton}>
               <PlusIcon
                 name={"plus-box-multiple-outline"}
@@ -113,7 +123,7 @@ class DashboardScreen extends Component {
               />
             </View>
             <Text style={styles.subtitle}>{"New"}</Text>
-          </View>
+          </TouchableOpacity>
           <View>
             <View style={styles.actionableButton}>
               <PhoneIcon name={"address-book"} size={40} color={Colors.white} />

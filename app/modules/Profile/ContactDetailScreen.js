@@ -24,17 +24,16 @@ import * as ImagePicker from "expo-image-picker";
 class ContactDetailScreen extends Component {
   constructor(props) {
     super(props);
-    const { token, contact_number, email, name, picture } =
-      props.route.params?.UserDetail;
+    const { UserDetail, isNewContact } = props.route.params;
     this.state = {
-      email: email | "",
-      photo: picture | null,
-      firstName: name,
-      lastName: name,
-      mobile: contact_number | "",
-      token: token | "",
+      email: UserDetail?.email | "",
+      photo: UserDetail?.picture | null,
+      firstName: UserDetail?.name,
+      lastName: UserDetail?.name,
+      mobile: UserDetail?.contact_number | "",
+      token: "",
       loading: true,
-      isNewContact: props.route.params?.isNewContact | true,
+      isNewContact: isNewContact | true,
     };
   }
 
@@ -97,6 +96,7 @@ class ContactDetailScreen extends Component {
   };
 
   validateTheContact = () => {
+    const {  toast } = this.props;
     const { email, lastName, firstName, mobile } = this.state;
     if (firstName?.length < 1) {
       toast({ text: `First name is required` });

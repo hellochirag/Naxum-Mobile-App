@@ -37,6 +37,7 @@ function StackScreen() {
   return (
     <Stack.Navigator initialRouteName={AppConstants.LOGIN}>
       <Stack.Screen name={AppConstants.LOGIN} component={LoginScreen} />
+      <Stack.Screen name={AppConstants.LOGOUT} component={LogoutScreen} />
       <Stack.Screen name={AppConstants.PROFILE} component={ProfileScreen} />
       <Stack.Screen
         name={AppConstants.ADD_CONTACT}

@@ -72,6 +72,7 @@ class DashboardScreen extends Component {
     const imgURI = picture ? { uri: picture } : Images.profileDefault;
     return (
       <TouchableOpacity
+        key={item?.item.id}
         style={styles.listContainer}
         onPress={() =>
           this.props.navigation.navigate(AppConstants.ADD_CONTACT, {
@@ -168,7 +169,7 @@ class DashboardScreen extends Component {
             );
           }}
           renderItem={this.renderItem}
-          keyExtractor={(item) => item.value}
+          keyExtractor={(item) => item.index}
         />
         <TouchableOpacity
           onPress={() => this.getContacts("")}

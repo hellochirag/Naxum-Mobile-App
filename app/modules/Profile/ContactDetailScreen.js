@@ -20,12 +20,13 @@ import _ from "lodash";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppConstants } from "../../constants/index";
 import * as ImagePicker from "expo-image-picker";
+import { CommonActions } from "@react-navigation/native";
 
 class ContactDetailScreen extends Component {
   constructor(props) {
     super(props);
     const { UserDetail, isNewContact } = props.route.params;
-    console.log('UserDetail ', UserDetail?.email)
+    console.log("UserDetail ", UserDetail?.email);
     this.state = {
       email: UserDetail?.email | "",
       photo: UserDetail?.picture | null,
@@ -45,15 +46,6 @@ class ContactDetailScreen extends Component {
         token: object?.token,
       });
     });
-    const { UserDetail, isNewContact } = this.props.route.params;
-    this.setState({
-      email: UserDetail?.email | "",
-      photo: UserDetail?.picture | null,
-      firstName: UserDetail?.first_name | "",
-      lastName: UserDetail?.last_name | "",
-      mobile: UserDetail?.mobile | "",
-      isNewContact: isNewContact,
-    });
   }
 
   addContact = async () => {
@@ -66,23 +58,16 @@ class ContactDetailScreen extends Component {
       body: {
         first_name: firstName,
         last_name: lastName,
-        contact_number: mobile,
+        mobile: mobile,
         email: email,
         ...request,
       },
     })
       .then(async (response) => {
         loader(false);
-        console.log('response :', response);
         if (response?.success) {
           toast({ text: `New Contact added successfully` });
-          this.state = {
-            email: "",
-            photo: null,
-            firstName: "",
-            lastName: "",
-            mobile: "",
-          };
+          this.props.navigation.dispatch(CommonActions.goBack());
         } else {
           setTimeout(() => {
             toast({ text: `Something went wrong, please try again!` });
@@ -145,10 +130,16 @@ class ContactDetailScreen extends Component {
   };
 
   render() {
-    const { isNewContact, photo, loading, email, lastName, firstName, mobile } =
-      this.state;
-    const imgURI = photo?.length > 0 ? { uri: photo } : Images.profileDefault;
-    console.log('STATE ::', this.state);
+    const { photo, loading } = this.state;
+    const userObject = this?.props?.route?.params?.UserDetail;
+    const isNewContact = this?.props?.route?.params?.isNewContact;
+    const imgURI =
+      photo?.length > 0
+        ? { uri: photo }
+        : userObject?.picture
+        ? userObject?.picture
+        : Images.profileDefault;
+    console.log("userObject ::", userObject);
     return (
       <ScrollView
         ref={(ref) => (this.scrollRef = ref)}
@@ -198,7 +189,7 @@ class ContactDetailScreen extends Component {
               style={styles.textInput}
               autoCapitalize="none"
               autoCorrect={false}
-              value={firstName}
+              value={userObject?.first_name}
               require={true}
               autoFocus={true}
               returnKeyType={"next"}
@@ -218,7 +209,7 @@ class ContactDetailScreen extends Component {
               autoCapitalize="none"
               autoCorrect={false}
               onChangeText={(text) => this.setState({ lastName: text })}
-              value={lastName}
+              value={userObject?.last_name}
               require={true}
               returnKeyType={"next"}
               keyboardType={"default"}
@@ -237,7 +228,7 @@ class ContactDetailScreen extends Component {
               autoCapitalize="none"
               autoCorrect={false}
               onChangeText={(text) => this.setState({ mobile: text })}
-              value={mobile}
+              value={userObject?.mobile}
               maxLength={11}
               require={true}
               returnKeyType={"next"}
@@ -260,7 +251,7 @@ class ContactDetailScreen extends Component {
               numberOfLines={1}
               autoCorrect={false}
               onChangeText={(text) => this.setState({ email: text })}
-              value={email}
+              value={userObject?.email}
               keyboardType={"email-address"}
               returnKeyType={"done"}
             />

@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  TextInput
 } from "react-native";
 import withLoader from "../../actions/withLoader";
 import withToast from "../../actions/withToast";
@@ -55,10 +56,10 @@ class ProfileScreen extends Component {
     });
   }
 
-  updateProfile = async (values) => {
+  updateProfile = async () => {
     const { loader, toast } = this.props;
-    const { firstName, lastName, mobile, email } = values;
-    const { token, base64, photo } = this.state;
+    //const { firstName, lastName, mobile, email } = values;
+    const { token, base64, photo, firstName, lastName, mobile, email } = this.state;
 
     const request = base64 ? { photo: base64 } : {};
     loader(true);
@@ -87,6 +88,14 @@ class ProfileScreen extends Component {
             AppConstants.USER_DETAILS,
             JSON.stringify(updateObject),
             () => {
+              this.setState({
+                token: token,
+                email: email,
+                mobile: mobile,
+                firstName: firstName,
+                lastName: lastName,
+                photo: photo,
+              });
               console.log("Updated stored successfully in storage");
             }
           );
@@ -131,10 +140,33 @@ class ProfileScreen extends Component {
     }
   };
 
+  validateTheProfile = () => {
+    const { toast } = this.props;
+    const { email, lastName, firstName, mobile } = this.state;
+    if (firstName?.length < 1) {
+      toast({ text: `First name is required` });
+    } else if (lastName?.length < 1) {
+      toast({ text: `Last name is required` });
+    } else if (mobile?.length < 1) {
+      toast({ text: `Mobile number is required` });
+    } else if (mobile?.length !== 10) {
+      toast({ text: `Invalid Mobile number` });
+    } else if (email?.length < 1) {
+      toast({ text: `Email Address is required` });
+    } else if (!emailRegex.test(email)) {
+      toast({ text: `Invalid email address` });
+    } else {
+      this.updateProfile();
+    }
+  };
+
   render() {
-    const { activeTabIndex, photo, loading, firstName } = this.state;
-    const { valid, dirty, handleSubmit } = this.props;
+    const { activeTabIndex, photo, loading, token, email, mobile, firstName, lastName } = this.state;
+    //const { valid, dirty, handleSubmit } = this.props;
     const imgURI = photo?.length > 0 ? { uri: photo } : Images.profileDefault;
+    const userObject = this?.props?.route?.params?.UserDetail;
+    // console.log('userObject>>>>>>>>>>>',userObject)
+    // console.log('userState>>>>>>>>>>>',this.state)
     return (
       <ScrollView
         ref={(ref) => (this.scrollRef = ref)}
@@ -252,151 +284,90 @@ class ProfileScreen extends Component {
             </TouchableOpacity>
           </View>
 
-          <CustomTextInput
-            name="firstName"
-            placeholder="First Name"
-            refProp={(ref) => (this.firstnameRef = ref)}
-            changeSuccessColor={true}
-            type={"text"}
-            style={{ paddingLeft: 0 }}
-            autoCapitalize="none"
-            autoCorrect={false}
-            value={firstName}
-            require={true}
-            autoFocus={true}
-            returnKeyType={"next"}
-            keyboardType={"default"}
-            ellipsizeMode="tail"
-            numberOfLines={1}
-            onSubmitEditing={() => this.lastNameRef.focus()}
-          />
+          <TextInput
+              name="firstName"
+              placeholder="First Name"
+              refProp={(ref) => (this.firstnameRef = ref)}
+              changeSuccessColor={true}
+              type={"text"}
+              onChangeText={(text) => this.setState({ firstName: text })}
+              style={styles.textInput}
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={firstName}
+              require={true}
+              autoFocus={true}
+              returnKeyType={"next"}
+              keyboardType={"default"}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+            />
 
-          <CustomTextInput
-            name="lastName"
-            placeholder="Last Name"
-            style={{ paddingLeft: 0 }}
-            refProp={(ref) => (this.lastNameRef = ref)}
-            changeSuccessColor={true}
-            type={"text"}
-            autoCapitalize="none"
-            autoCorrect={false}
-            //value={profileFormData.lastName ? profileFormData.lastName : ''}
-            value={""}
-            require={true}
-            returnKeyType={"next"}
-            keyboardType={"default"}
-            ellipsizeMode="tail"
-            numberOfLines={1}
-            onEndEditing={() => {
-              this.mobileRef.isFocused();
-            }}
-            onSubmitEditing={() => this.mobileRef.focus()}
-          />
+            <TextInput
+              name="lastName"
+              placeholder="Last Name"
+              style={styles.textInput}
+              refProp={(ref) => (this.lastNameRef = ref)}
+              changeSuccessColor={true}
+              type={"text"}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={(text) => this.setState({ lastName: text })}
+              value={lastName}
+              require={true}
+              returnKeyType={"next"}
+              keyboardType={"default"}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+            />
 
-          <CustomTextInput
-            name="mobile"
-            placeholder="Mobile Number"
-            style={{ paddingLeft: 0 }}
-            refProp={(ref) => (this.mobileRef = ref)}
-            changeSuccessColor={true}
-            type={"text"}
-            autoCapitalize="none"
-            autoCorrect={false}
-            //value={profileFormData.mobile ? profileFormData.mobile : ''}
-            value={""}
-            maxLength={11}
-            require={true}
-            returnKeyType={"next"}
-            keyboardType={"numeric"}
-            ellipsizeMode="tail"
-            numberOfLines={1}
-            onEndEditing={() => {
-              this.emailRef.isFocused();
-            }}
-            onSubmitEditing={() => this.emailRef.focus()}
-          />
+            <TextInput
+              name="mobile"
+              placeholder="Mobile Number"
+              style={styles.textInput}
+              refProp={(ref) => (this.mobileRef = ref)}
+              changeSuccessColor={true}
+              type={"text"}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={(text) => this.setState({ mobile: text })}
+              value={mobile}
+              maxLength={10}
+              require={true}
+              returnKeyType={"next"}
+              keyboardType={"numeric"}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+            />
 
-          <CustomTextInput
-            refProp={(ref) => (this.emailRef = ref)}
-            name="email"
-            require={true}
-            style={{ paddingLeft: 0 }}
-            placeholder="Email Address"
-            changeSuccessColor={true}
-            ellipsizeMode="tail"
-            type={"text"}
-            autoCapitalize="none"
-            numberOfLines={1}
-            autoCorrect={false}
-            //value={profileFormData.mobile ? profileFormData.mobile : ''}
-            value={""}
-            keyboardType={"email-address"}
-            returnKeyType={"done"}
-            onSubmitEditing={() => {
-              if (!dirty && !valid) {
-                handleSubmit(this.updateProfile);
-              }
-            }}
-          />
+            <TextInput
+              refProp={(ref) => (this.emailRef = ref)}
+              name="email"
+              require={true}
+              style={styles.textInput}
+              placeholder="Email Address"
+              changeSuccessColor={true}
+              ellipsizeMode="tail"
+              type={"text"}
+              autoCapitalize="none"
+              numberOfLines={1}
+              autoCorrect={false}
+              onChangeText={(text) => this.setState({ email: text })}
+              value={email}
+              keyboardType={"email-address"}
+              returnKeyType={"done"}
+            />
 
-          <Button
-            disabled={dirty && valid ? false : true}
-            onPress={handleSubmit(this.updateProfile)}
-            title={"UPDATE PROFILE"}
-            textStyle={{ textAlign: "center" }}
-            contentStyle={{ marginTop: scale(25), height: scale(40) }}
-          />
+            <Button
+              onPress={() => this.validateTheProfile()}
+              title={"UPDATE PROFILE"}
+              textStyle={{ textAlign: "center" }}
+              contentStyle={{ marginTop: scale(25), height: scale(40) }}
+            />
         </View>
       </ScrollView>
     );
   }
 }
 
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  mobile: "",
-  email: "",
-};
-
-const validate = (values) => {
-  let errors = {};
-
-  errors.firstName = !values.firstName ? "First name is required" : undefined;
-
-  errors.lastName = !values.lastName ? "Last name is required" : undefined;
-
-  errors.mobile = !values.mobile ? "Mobile number is required" : undefined;
-
-  errors.email = !values.email
-    ? "Email Address is required"
-    : !emailRegex.test(values.email)
-    ? "Invalid email"
-    : undefined;
-
-  return errors;
-};
-
-const withForm = reduxForm({
-  form: "profileForm",
-  validate,
-  initialValues,
-  enableReinitialize: true,
-});
-
-const selector = formValueSelector("profileForm");
-
-const mapStateToProps = (state) => {
-  return {
-    formValue: state.form.profileForm ? state.form.profileForm.values : {},
-    firstName: selector(state, "firstName"),
-    lastName: selector(state, "lastName"),
-    mobile: selector(state, "mobile"),
-    email: selector(state, "email"),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  {}
-)(withLoader(withToast(withForm(ProfileScreen))));
+export default withLoader(withToast(ProfileScreen));

@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     marginRight: scale(16)
   },
   input: {
-    height: scale(32),
+    height: scale(42),
     marginTop: scale(18),
     width: scale(300),
     padding: scale(10),
